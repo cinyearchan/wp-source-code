@@ -91,8 +91,15 @@
 })({
   "./src/index.js":
     /*! no static exports found */
+    function (module, exports, __webpack_require__) {
+      let name = __webpack_require__(/*! ./login.js */ "./src/login.js");
+
+      console.log("index.js 内容执行了");
+      console.log(name);
+    },
+  "./src/login.js":
+    /*! no static exports found */
     function (module, exports) {
-      console.log("index.js 内容");
-      module.exports = "入口文件导出内容";
+      module.exports = "导出登录模块";
     },
 });

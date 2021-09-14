@@ -1,3 +1,4 @@
-console.log('index.js 内容')
+let name = require('./login.js')
 
-module.exports = '入口文件导出内容'
+console.log('index.js 内容执行了')
+console.log(name)
