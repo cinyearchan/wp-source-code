@@ -1,4 +1,4 @@
-import name, { age } from './login.js'
+let name = require('./login.js')
 
 console.log('index.js 内容执行了')
-console.log(name, '----->', age)
+console.log(name)

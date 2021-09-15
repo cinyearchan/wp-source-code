@@ -89,35 +89,12 @@
   // Load entry module and return exports
   return __webpack_require__((__webpack_require__.s = "./src/index.js"));
 })({
-  "./src/index.js": function (
-    module,
-    __webpack_exports__,
-    __webpack_require__
-  ) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var _login_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-      /*! ./login.js */ "./src/login.js"
-    );
+  "./src/index.js": function (module, exports, __webpack_require__) {
+    let name = __webpack_require__(/*! ./login.js */ "./src/login.js");
     console.log("index.js 内容执行了");
-    console.log(
-      _login_js__WEBPACK_IMPORTED_MODULE_0__["default"],
-      "----->",
-      _login_js__WEBPACK_IMPORTED_MODULE_0__["age"]
-    );
+    console.log(name);
   },
-  "./src/login.js": function (
-    module,
-    __webpack_exports__,
-    __webpack_require__
-  ) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "age", function () {
-      return age;
-    });
-    // 02 采用 esModule 导出模块
-    __webpack_exports__["default"] = "esModule 模块";
-    const age = 18;
+  "./src/login.js": function (module, exports) {
+    module.exports = "测试模块";
   },
 });
