@@ -89,23 +89,26 @@
   // Load entry module and return exports
   return __webpack_require__((__webpack_require__.s = "./src/index.js"));
 })({
-  "./src/index.js": function (module, exports, __webpack_require__) {
-    let obj = __webpack_require__(/*! ./login.js */ "./src/login.js");
-
-    console.log("index.js 内容执行了");
-    console.log(obj.default, "----->", obj.age);
-  },
-  "./src/login.js": function (
+  "./src/index.js": function (
     module,
     __webpack_exports__,
     __webpack_require__
   ) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "age", function () {
-      return age;
-    });
-    __webpack_exports__["default"] = "ESModule 模块";
-    const age = 18;
+    var _login_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! ./login.js */
+      "./src/login.js"
+    );
+    var _login_js__WEBPACK_IMPORTED_MODULE_0___default =
+      /*#__PURE__*/
+      __webpack_require__.n(_login_js__WEBPACK_IMPORTED_MODULE_0__);
+
+    console.log("index.js 内容执行了");
+    console.log(_login_js__WEBPACK_IMPORTED_MODULE_0___default.a);
+  },
+  "./src/login.js": function (module, exports) {
+    // 01 采用 CommonJS 规范
+    module.exports = "CommonJS 规范模块";
   },
 });
