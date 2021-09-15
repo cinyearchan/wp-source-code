@@ -1,1 +1,1 @@
-export default '测试模块'
+module.exports = 'login.js 模块内容'
