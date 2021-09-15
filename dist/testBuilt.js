@@ -3,7 +3,28 @@
   let installedModules = {}
 
   // 2 定义 __webpack_require__ 方法用于替换 import require 加载操作
-  function __webpack_require__ (moduleId) {}
+  function __webpack_require__ (moduleId) {
+    // 判断当前缓存中是否存在要被加载的模块，如果存在则直接返回
+    if (installedModules[moduleId]) {
+      return installedModules[moduleId]
+    }
+
+    // 如果当前缓存中不存在该模块，手动定义对象并加载被导入的模块内容
+    let module = installedModules[moduleId] = {
+      i: moduleId,
+      l: false,
+      exports: {}
+    }
+
+    // 调用该模块 moduleId 对应的函数，完成内容的加载
+    modules[moduleId].call(module.exports, module, module.exports, __webpack_require__)
+
+    // 上述方法调用完成后，修改 mdoule.l 的值，标识该模块已被加载
+    module.l = true
+
+    // 加载完成之后，返回获取到的模块内容给 __webpack_require__ 的调用位置
+    return module.exports
+  }
 
   // 3 定义 m 属性用于保存 modules
   __webpack_require__.m = modules
