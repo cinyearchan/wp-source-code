@@ -1,1 +1,1 @@
-module.exports = '测试模块'
+export default '测试模块'

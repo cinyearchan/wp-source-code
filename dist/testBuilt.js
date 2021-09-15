@@ -47,9 +47,9 @@
   // 7 定义 r 方法用于标识当前模块是 es6 类型 esModule
   __webpack_require__.r = function (exports) {
     if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-      Object.defineProperty(epxorts, Symbol.toStringTag, { value: "Module" })
+      Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" })
     }
-    Object.defineProperty(epxorts, '__esModule', { value: true })
+    Object.defineProperty(exports, '__esModule', { value: true })
   }
 
   // 8 定义 n 方法用于设置具体的 getter
@@ -67,12 +67,26 @@
   // 10 调用 __webpack_require__ 方法执行模块导入与加载操作
   return __webpack_require__(__webpack_require__.s = "./src/index.js")
 })({
-  "./src/index.js": (function (module, exports, __webpack_require__) {
-    let name = __webpack_require__("./src/login.js")
-    console.log('index.js 内容执行了')
-    console.log(name)
-  }),
-  "./src/login.js": (function (module, exports, __webpack_require__) {
-    module.exports = '测试模块'
-  })
+  "./src/index.js": function (
+    module,
+    __webpack_exports__,
+    __webpack_require__
+  ) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var _login_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! ./login.js */ "./src/login.js"
+    );
+    console.log("index.js 内容执行了");
+    console.log(_login_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+  },
+  "./src/login.js": function (
+    module,
+    __webpack_exports__,
+    __webpack_require__
+  ) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__["default"] = "测试模块";
+  },
 })
