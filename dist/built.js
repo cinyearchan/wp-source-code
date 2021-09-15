@@ -86,22 +86,26 @@
   };
   // __webpack_public_path__
   __webpack_require__.p = "";
-
   // Load entry module and return exports
   return __webpack_require__((__webpack_require__.s = "./src/index.js"));
 })({
-  "./src/index.js":
-    /*! no static exports found */
-    function (module, exports, __webpack_require__) {
-      let name = __webpack_require__(/*! ./login.js */ "./src/login.js");
+  "./src/index.js": function (module, exports, __webpack_require__) {
+    let obj = __webpack_require__(/*! ./login.js */ "./src/login.js");
 
-      console.log("index.js 内容执行了");
-      console.log(name);
-    },
-  "./src/login.js":
-    /*! no static exports found */
-    function (module, exports) {
-      // 01 采用 CommonJS 规范
-      module.exports = "CommonJS 规范模块";
-    },
+    console.log("index.js 内容执行了");
+    console.log(obj.default, "----->", obj.age);
+  },
+  "./src/login.js": function (
+    module,
+    __webpack_exports__,
+    __webpack_require__
+  ) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, "age", function () {
+      return age;
+    });
+    __webpack_exports__["default"] = "ESModule 模块";
+    const age = 18;
+  },
 });
