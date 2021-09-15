@@ -1,9 +1,5 @@
-let oBtn = document.getElementById('btn')
+let name = require('./login.js')
 
-oBtn.addEventListener('click', function () {
-  import(/*webpackChunkName: 'login'*/'./login.js').then(login => {
-    console.log(login)
-  })
-})
+console.log('index.js 执行')
 
-console.log('index.js 内容加载了')
+console.log(name)

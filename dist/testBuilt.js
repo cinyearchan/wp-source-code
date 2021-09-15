@@ -61,32 +61,52 @@
     __webpack_require__.d(getter, 'a', getter)
   }
 
+  // 11 定义 t 方法用于加载指定 value 的模块内容，之后对内容进行处理再返回
+  __webpack_require__.t = function (value, mode) {
+    // 加载 value 对应的模块内容——value 一般就是模块 id
+    // 加载之后的内容又重新赋值给 value 变量
+    if (mode & 1) {
+      value = __webpack_require__(value)
+    }
+    
+    if (mode & 8) { // 加载了可以直接返回使用的内容
+      return value
+    }
+
+    if ((mode & 4) && typeof value === 'object' && value && value.__esModule) {
+      return value
+    }
+
+    // 如果 8 4 都不成立，使用自定义 ns 通过 default 属性返回内容
+    let ns = Object.create(null)
+
+    __webpack_require__.r(ns)
+
+    Object.defineProperty(ns, 'default', { enumerable: true, value: value })
+
+    if (mode & 2 && typeof value !== 'string') {
+      for (var key in value) {
+        __webpack_require__.d(ns, key, function (key) {
+          return value[key]
+        }.bind(null, key))
+      }
+    }
+
+    return ns
+  }
+
   // 9 定义 p 属性用于保存资源访问路径
   __webpack_require__.p = ""
 
   // 10 调用 __webpack_require__ 方法执行模块导入与加载操作
   return __webpack_require__(__webpack_require__.s = "./src/index.js")
 })({
-  "./src/index.js": function (
-    module,
-    __webpack_exports__,
-    __webpack_require__
-  ) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var _login_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-      /*! ./login.js */ "./src/login.js"
-    );
-    console.log("index.js 内容执行了");
-    console.log(_login_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+  "./src/index.js": function (module, exports, __webpack_require__) {
+    let name = __webpack_require__.t(/*! ./login.js */ "./src/login.js", 0b1001);
+    console.log("index.js 执行");
+    console.log(name);
   },
-  "./src/login.js": function (
-    module,
-    __webpack_exports__,
-    __webpack_require__
-  ) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__["default"] = "测试模块";
+  "./src/login.js": function (module, exports) {
+    module.exports = "login.js 模块内容";
   },
 })
