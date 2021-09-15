@@ -1,2 +1,3 @@
-// 01 采用 CommonJS 规范
-module.exports = 'CommonJS 规范模块'
+// 02 采用 esModule 导出模块
+export default 'esModule 模块'
+export const age = 18
