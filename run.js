@@ -1,7 +1,9 @@
-let webpack = require('webpack')
+// let webpack = require('webpack')
+let minipack = require('./minipack')
 let options = require('./webpack.config')
 
-let compiler = webpack(options)
+// let compiler = webpack(options)
+let compiler = minipack(options)
 
 compiler.run((err, stats) => {
   console.log(err)
