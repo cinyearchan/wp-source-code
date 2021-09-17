@@ -1,0 +1,4 @@
+- 实例化 Hook，定义 _x = [f1, f2, ...] taps = [{}, {}]
+- 实例调用 tap taps = [{}, {}]
+- 调用 call 方法，HookCodeFactory setup create
+- Hook SyncHook HookCodeFactory
