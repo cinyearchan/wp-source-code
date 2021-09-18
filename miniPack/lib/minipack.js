@@ -1,5 +1,6 @@
 const Compiler = require('./Compiler')
 const NodeEnvironmentPlugin = require('./node/NodeEnvironmentPlugin')
+const MinipackOptionsApply = require('./MinipackOptionsApply')
 
 const minipack = function (options) {
   // 校验 options，当前可省略
@@ -19,6 +20,7 @@ const minipack = function (options) {
 
   // 给 compiler 挂载所有的内置插件（处理入口文件的插件最重要）
   // 原版实现 compiler.options = new WebpackOptionsApply().process(options, compiler)
+  compiler.options = new MinipackOptionsApply().process(options, compiler)
 
   // 返回 compiler 对象
   return compiler
