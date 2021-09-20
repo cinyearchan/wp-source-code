@@ -1,5 +1,11 @@
 const { Tapable, SyncHook } = require('tapable')
 const path = require('path')
+const NormalModuleFactory = require('./NormalModuleFactory')
+const Parser = require('./Parser')
+
+// 实例化一个 normalModuleFactory parser
+const normalModuleFactory = new NormalModuleFactory()
+const parser = new Parser()
 
 class Compilation extends Tapable {
   constructor (compiler) {
@@ -38,7 +44,7 @@ class Compilation extends Tapable {
       context,
       rawRequest: entry,
       resource: path.posix.join(context, entry), // 找到 entry 入口的绝对路径
-      // parser
+      parser
     })
 
     const afterBuild = function (err) {
@@ -59,7 +65,7 @@ class Compilation extends Tapable {
    */
   buildModule (module, callback) {
     module.build(this, (err) => {
-      // 如果代码执行到此处，意味着当前 module 的编译完成
+      // 当代码执行到此处，意味着当前 module 的编译完成
       this.hooks.succeedModule.call(module)
       callback(err)
     })

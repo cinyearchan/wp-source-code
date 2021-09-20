@@ -1,6 +1,7 @@
 const { Tapable, AsyncSeriesHook, SyncHook, SyncBailHook, AsyncParallelHook } = require('tapable')
 const NormalModuleFactory = require('./NormalModuleFactory')
 const Compilation = require('./Compilation')
+const Stats = require('./Stats')
 
 class Compiler extends Tapable {
   constructor (context) {
@@ -29,6 +30,8 @@ class Compiler extends Tapable {
 
   newCompilation (params) {
     const compilation = this.createCompilation()
+    this.hooks.thisCompilation.call(compilation, params)
+    this.hooks.compilation.call(compilation, params)
     return compilation
   }
 
@@ -47,7 +50,7 @@ class Compiler extends Tapable {
       this.hooks.make.callAsync(compilation, (err) => {
         console.log('make 钩子触发')
 
-        callback() // onCompiled 执行
+        callback(err, compilation) // onCompiled 执行
       })
     })
   }
@@ -61,16 +64,17 @@ class Compiler extends Tapable {
 
     const onCompiled = function (err, compilation) {
       console.log('onCompiled')
-      finalCallback(err, {
-        toJson() {
-          return {
-            entries: [], // 当前次打包的入口信息
-            chunks: [], // 当前次打包的 chunk 信息
-            modules: [], // 模块信息
-            assets: [], // 当前次打包最终生成的资源
-          }
-        }
-      })
+      // finalCallback(err, {
+      //   toJson() {
+      //     return {
+      //       entries: [], // 当前次打包的入口信息
+      //       chunks: [], // 当前次打包的 chunk 信息
+      //       modules: [], // 模块信息
+      //       assets: [], // 当前次打包最终生成的资源
+      //     }
+      //   }
+      // })
+      finalCallback(err, new Stats(compilation))
     }
 
     this.hooks.beforeRun.callAsync(this, (err) => {
