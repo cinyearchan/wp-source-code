@@ -7,10 +7,11 @@ let compiler = minipack(options)
 
 compiler.run((err, stats) => {
   console.log(err)
-  console.log(stats.toJson({
-    entries: true,
-    chunks: false,
-    modules: false,
-    assets: false
-  }))
+  // console.log(stats.toJson({
+  //   entries: true,
+  //   chunks: false,
+  //   modules: false,
+  //   assets: false
+  // }))
+  console.log(stats)
 })
