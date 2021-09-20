@@ -1,5 +1,6 @@
 const { Tapable, SyncHook } = require('tapable')
 const path = require('path')
+const async = require('neo-async')
 const NormalModuleFactory = require('./NormalModuleFactory')
 const Parser = require('./Parser')
 
@@ -114,9 +115,25 @@ class Compilation extends Tapable {
    * @param {*} callback 
    */
   processDependencies (module, callback) {
-    // 加载模块的思路都是：创建一个模块，通过这个创建的空白模块加载被依赖的模块的内容
-    // 重点：module 依赖的所有模块加载完成后，再执行回调 callback
-    // neo-async
+    /**
+     * 加载模块的思路都是：创建一个模块，通过这个创建的空白模块加载被依赖的模块的内容
+     * 重点：module 依赖的所有模块加载完成后，再执行回调 callback
+     * 工具：neo-async
+     */
+
+    // 获取当前模块所依赖的模块
+    let dependencies = module.dependencies
+
+    async.forEach(dependencies, (dependency, done) => {
+      this.createModule({
+        name: dependency.name,
+        context: dependency.context,
+        rawRequest: dependency.rawRequest,
+        moduleId: dependency.moduleId,
+        resource: dependency.resource,
+        parser
+      }, null, done)
+    }, callback)
   }
 }
 
