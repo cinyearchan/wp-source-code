@@ -60,10 +60,19 @@ class NormalModule {
               moduleId: depModuleId,
               resource: depResource
             })
+
+            // 替换内容
+            // 替换 require
+            node.callee.name = '__minipack_require__'
+            node.arguments = [types.stringLiteral(depModuleId)]
           }
         }
       })
 
+      // 将修改后的 ast 转换为代码字符
+      // ast => code
+      let { code } = generator(this._ast)
+      this._source = code
       callback(err)
     })
   }
