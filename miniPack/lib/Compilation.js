@@ -4,6 +4,7 @@ const async = require('neo-async')
 const NormalModuleFactory = require('./NormalModuleFactory')
 const Parser = require('./Parser')
 const Chunk = require('./Chunk')
+const ejs = require('ejs')
 
 // 实例化一个 normalModuleFactory parser
 const normalModuleFactory = new NormalModuleFactory()
@@ -24,6 +25,8 @@ class Compilation extends Tapable {
     this.modules = []
     // 存放当前次打包过程中产生的 chunk
     this.chunks = []
+    this.assets = []
+    this.files = []
     this.hooks = {
       succeedModule: new SyncHook(['module']),
       seal: new SyncHook(),
@@ -159,11 +162,53 @@ class Compilation extends Tapable {
       // 给 chunk 属性赋值，注意区分 chunk.modules 与 (compilation.modules/this.modules)
       chunk.modules = this.modules.filter(module => module.name === chunk.name)
       // index.js 与 title.js 的 chunk 的 name 都是 main
-
-
     }
+
+    // chunk 流程梳理、信息收集之后
+    // 进入到 chunk 代码处理
+    // 模板文件 + 模块中的代码 ==> chunk.js
+    this.hooks.afterChunks.call(this.chunks)
+
+    // 生成代码内容
+    this.createChunkAssets()
     
     callback()
+  }
+
+  /**
+   * 将 chunks 中的内容，借助模板文件组合在一起
+   */
+  createChunkAssets () {
+    for (let i = 0; i < this.chunks.length; i++) {
+      const chunk = this.chunks[i]
+      const fileName = chunk.name + '.js'
+      chunk.files.push(fileName)
+
+      // 获取模板文件路径
+      let tempPath = path.posix.join(__dirname, 'temp/main.ejs')
+      // 读取模板文件中的内容
+      let tempCode = this.inputFileSystem.readFileSync(tempPath, 'utf8')
+      // 获取渲染函数
+      let tempRender = ejs.compile(tempCode)
+      // 按照 ejs 语法渲染数据
+      let source = tempRender({
+        entryModuleId: chunk.entryModule.moduleId,
+        modules: chunk.modules
+      })      
+      
+      // 输出文件
+      this.emitAssets(fileName, source)
+    }
+  }
+
+  /**
+   * 生成具体的 chunk 文件
+   * @param {*} fileName 当前 chunk 文件名
+   * @param {*} source chunk 对应的内容
+   */
+  emitAssets (fileName, source) {
+    this.assets[fileName] = source
+    this.files.push(fileName)
   }
 }
 

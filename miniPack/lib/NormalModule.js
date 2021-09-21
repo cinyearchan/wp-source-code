@@ -7,6 +7,7 @@ class NormalModule {
   constructor (data) {
     this.context = data.context
     this.name = data.name
+    this.moduleId = data.moduleId
     // this.entry = data.entry // 与 rawRequest 即原始请求路径相同，可作删除
     this.rawRequest = data.rawRequest
     // TODO: 等待完成
