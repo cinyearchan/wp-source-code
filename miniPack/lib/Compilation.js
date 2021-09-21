@@ -188,6 +188,7 @@ class Compilation extends Tapable {
       let tempPath = path.posix.join(__dirname, 'temp/main.ejs')
       // 读取模板文件中的内容
       let tempCode = this.inputFileSystem.readFileSync(tempPath, 'utf8')
+      console.log('tempCode', tempCode)
       // 获取渲染函数
       let tempRender = ejs.compile(tempCode)
       // 按照 ejs 语法渲染数据
